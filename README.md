@@ -5,7 +5,7 @@ A small program that emulates the sentence system from Half-Life.
 ### Requirements
 * nim >= 0.17.0
 * nimble >= 0.8.0
-* sdl2 >= 2.0.0
+* libsdl2 >= 2.0.0
 ### Instructions
 Run ```nimble build``` in the root directory.
 
@@ -18,6 +18,7 @@ Run ```nimble build``` in the root directory.
 * ```(pNUM)```: sets voice pitch to NUM for this word (100 is normal);
 * ```(vNUM)```: sets voice volume to NUM for this word (100 is normal);
 * ```(eNUM)```: ends this word after NUM% of it plays.
+
 Control sequences can be combined, e. g. ```(p50v50)```, or used on their own, e. g. ```my! (t30) god!```, though in that case only t will have any effect.
 
 Example:
