@@ -37,23 +37,28 @@ proc readCtrlSeq(ctrl: string): WordParams =
   result.startTime = 0.0
   result.endTime = 1.0
   result.volume = 1.0
+
   var tok = ""
   var i = 0
   var kind = 'z'
-  while i < ctrl.len:
-    kind = ctrl[i]
-    if kind in {'p', 't', 's', 'e', 'v'}:
-      i += 1
-      i += ctrl.parseUntil(tok, Letters, i)
-      if tok != "":
-        case kind
-        of 'p': result.pitch = parseFloat(tok) / 100.0
-        of 't': result.wait = parseInt(tok)
-        of 's': result.startTime = parseFloat(tok) / 100.0
-        of 'e': result.endTime = parseFloat(tok) / 100.0
-        of 'v': result.volume = parseFloat(tok) / 100.0
-        else: discard
-    else: i += 1
+
+  try:
+    while i < ctrl.len:
+      kind = ctrl[i]
+      if kind in {'p', 't', 's', 'e', 'v'}:
+        i += 1
+        i += ctrl.parseUntil(tok, Letters, i)
+        if tok != "":
+          case kind
+          of 'p': result.pitch = parseFloat(tok) / 100.0
+          of 't': result.wait = parseInt(tok)
+          of 's': result.startTime = parseFloat(tok) / 100.0
+          of 'e': result.endTime = parseFloat(tok) / 100.0
+          of 'v': result.volume = parseFloat(tok) / 100.0
+          else: discard
+      else: i += 1
+  except:
+    echo("invalid control sequence: ", ctrl)
 
 proc speak*(vox: Voice, words: openArray[string]) =
   var
@@ -82,7 +87,7 @@ proc speak*(vox: Voice, words: openArray[string]) =
         ctrl = word[1 .. ^2]
         word = ""
       elif pos != -1:
-        ctrl = word[pos .. ^2]
+        ctrl = word[pos+1 .. ^2]
         word = word[0 .. pos-1]
 
     (pitch, wait, startTime, endTime, volume) = readCtrlSeq(ctrl)
