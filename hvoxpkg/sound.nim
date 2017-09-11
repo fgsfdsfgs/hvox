@@ -24,9 +24,12 @@ proc loadSound*(fname: string): Sound =
 
   result.duration = round(result.chunk.getLength() * 1000.0).int
 
-proc getDuration*(sound: Sound): int =
+proc getDuration*(sound: Sound, pitch: float = -1.0): int =
   if sound == nil: return 0
-  result = sound.duration
+  if pitch > 0.0:
+    result = (sound.duration.float * (1.0 / pitch)).int
+  else:
+    result = sound.duration
 
 proc isPlaying*(sound: Sound): bool =
   if sound == nil or sound.chunk == nil: return false

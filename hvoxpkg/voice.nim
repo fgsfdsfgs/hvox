@@ -90,7 +90,7 @@ proc speak*(vox: Voice, words: openArray[string]) =
     if word in vox.words:
       var snd = vox.words[word]
       snd.play(volume, pitch)
-      sleep(round(snd.getDuration().float * endTime).int)
+      sleep(round(snd.getDuration(pitch).float * endTime).int)
       snd.stop()
 
     sleep(wait + punctWait)
