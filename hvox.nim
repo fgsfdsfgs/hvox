@@ -1,5 +1,5 @@
-import os, strutils
-import hvoxpkg/voice
+import os, strutils, sequtils
+import hvoxpkg/voice, hvoxpkg/specials
 
 const DefaultVoice = "hgrunt"
 
@@ -19,6 +19,8 @@ if words[0] == "-v":
   else:
     echo("could not find voice '", vname, "', using default")
   words = words[2 .. ^1]
+
+words.expandSpecials()
 
 if vox == nil:
   vox = loadVoice(DefaultVoice)
