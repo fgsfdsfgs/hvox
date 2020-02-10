@@ -60,7 +60,7 @@ proc readCtrlSeq(ctrl: string): WordParams =
   except:
     echo("invalid control sequence: ", ctrl)
 
-proc speak*(vox: Voice, words: openArray[string]) =
+proc speak*(vox: Voice, words: openArray[string], volMod: float = 1.0, pitchMod: float = 1.0) =
   var
     pitch = 1.0
     wait = 0
@@ -94,8 +94,8 @@ proc speak*(vox: Voice, words: openArray[string]) =
 
     if word in vox.words:
       var snd = vox.words[word]
-      snd.play(volume, pitch)
-      sleep(round(snd.getDuration(pitch).float * endTime).int)
+      snd.play(volume * volMod, pitch * pitchMod)
+      sleep(round(snd.getDuration(pitch * pitchMod).float * endTime).int)
       snd.stop()
 
     sleep(wait + punctWait)

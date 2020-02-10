@@ -56,7 +56,7 @@ proc dirEmpty*(path: string, checkDirs: bool = false): bool =
       return false
 
 proc readBinFile*(path: string): seq[byte] =
-  result = nil
+  result = @[]
   if not existsFile(path):
     return
   var f = open(path)
